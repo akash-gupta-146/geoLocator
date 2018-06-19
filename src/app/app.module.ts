@@ -6,25 +6,40 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { LoginPage } from '../pages/login/login';
+import { AuthService } from '../providers/auth.service';
+import { NetworkService } from '../providers/network.service';
+import { CustomHttpService } from '../providers/custom-http.service';
+import { CustomService } from '../providers/custom.service';
+import { HttpClientModule } from '@angular/common/http';
+import { Network } from '@ionic-native/network';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
-  entryComponents: [
+  entryComponents: [   
     MyApp,
-    HomePage
-  ],
+    HomePage,
+    LoginPage
+  ],   
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthService,
+    Network,
+    NetworkService,
+    CustomHttpService,
+    CustomService
   ]
 })
 export class AppModule {}

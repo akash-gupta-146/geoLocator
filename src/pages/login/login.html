@@ -1,0 +1,37 @@
+
+
+
+<ion-content>
+  <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+    <ion-title>
+      Login
+    </ion-title>
+    <ion-card>
+
+      <ion-item>
+        <ion-icon color="primary" name="person" item-left></ion-icon>
+        <ion-label stacked>Contact No.</ion-label>
+        <ion-input type="text" formControlName="contactNo" placeholder="Add phone number"></ion-input>
+      </ion-item>
+      <ion-item no-lines *ngIf="(contactNo.dirty || submitAttempt) && !contactNo.valid">
+        <p *ngIf="contactNo.hasError('required')" style="color: red">Contact No. is required.</p>
+        <p *ngIf="contactNo.hasError('pattern')" style="color: red">Contact No. is invalid.</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon color="primary" name="unlock" item-left></ion-icon>
+        <ion-label stacked>Password</ion-label>
+        <ion-input type="password" formControlName="password" placeholder="Add Password"></ion-input>
+      </ion-item>
+      <ion-item no-lines *ngIf="(password.dirty || submitAttempt) && !password.valid">
+        <p style="color: red">Password is required.</p>
+      </ion-item>
+      <button type="submit" ion-button full>Log In</button>
+
+    </ion-card>
+
+    <!-- <button type="button" ion-button clear (click)="onRegister()" float-right>Register</button> -->
+
+
+  </form>
+</ion-content>
