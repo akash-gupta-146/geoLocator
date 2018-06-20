@@ -1,0 +1,14 @@
+<ion-content padding>
+
+  <div text-center>
+    <h1>Location permission required</h1>
+    <h5>Allow this app to automatically detect your current location</h5>
+
+    <div *ngIf="denied_always">
+      <p>To enable, go to settings and turn on location access for this app.</p>
+    </div>
+
+    <button ion-button full (click)="onAllowBtn()">{{denied_always?'OPEN SETTINGS':'ALLOW'}}</button>
+  </div>
+
+</ion-content>
