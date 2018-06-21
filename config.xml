@@ -3,7 +3,7 @@
     <name>geoLocator</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.1.2:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -92,4 +92,5 @@
     <plugin name="cordova-plugin-request-location-accuracy" spec="^2.2.3" />
     <plugin name="cordova-open-native-settings" spec="^1.5.1" />
     <engine name="android" spec="7.0.0" />
+    <engine name="ios" spec="~4.4.0" />
 </widget>
