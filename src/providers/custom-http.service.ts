@@ -9,15 +9,13 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class CustomHttpService {
 
-     BASEURL='';
+     BASEURL='http://vocdev.vocscale-dev.ap-south-1.elasticbeanstalk.com';
 
     constructor(private httpClient: HttpClient) { }
 
     private getAccessToken() {
 
-        let basicToken = "nxtlifecustomersupport:suvidha";
-
-        return !localStorage.getItem('access_token') ? 'Basic ' + btoa(basicToken) : 'Bearer ' + localStorage.getItem('access_token');
+        return 'Bearer ' + localStorage.getItem('access_token');
     }
 
     private addHeaders(optionalHeaders?: HttpHeaders) {
@@ -32,8 +30,6 @@ export class CustomHttpService {
         }
         return requestHeaders;
     }
-
-
 
     get(url: string, options?: HttpHeaders) {
 
@@ -53,7 +49,7 @@ export class CustomHttpService {
             .catch(this.handleError);
     }
 
-    postForRegister(url: string, body: any) {
+    postForLogin(url: string, body: any) {
         // no header is required for register 
         return this.httpClient.post(this.BASEURL + url, body, { observe: 'response' })
             .map(this.extractData)
