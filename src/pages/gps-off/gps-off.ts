@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { HomePage } from '../home/home';
 
@@ -15,6 +15,7 @@ export class GpsOffPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private alertCtrl: AlertController,
     private locationAccuracy: LocationAccuracy
 
   ) {
@@ -28,18 +29,24 @@ export class GpsOffPage {
           // the accuracy option will be ignored by iOS
           this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
             .then((res) => {
-              alert('Request successful' + JSON.stringify(res));
+              this.debugAlert('Request successful' + JSON.stringify(res));
               // this.onClockIn();
-              this.navCtrl.setRoot(HomePage,{'allChecked':true},{animate:true,direction:'forward'});
+              this.navCtrl.setRoot(HomePage, { 'allChecked': true }, { animate: true, direction: 'forward' });
             }, (error) => {
-              
-              alert(JSON.stringify(error));
+              this.debugAlert(JSON.stringify(error));
+
             });
         } else {
-
-          alert('Can request : FALSE');
+          this.debugAlert('Can request : FALSE');
         }
 
       });
+  }
+
+  debugAlert(msg: string) {
+    const alert = this.alertCtrl.create({
+      message: JSON.stringify(msg)
+    });
+    alert.present();
   }
 }

@@ -15,7 +15,7 @@ export class HomePage {
   // HomePage is opened in two cases:
   // 1: after login
   // 2: after granting both permissions, in this case no need to perform those checks again
-  allChecked ;
+  allChecked;
 
   constructor(
     public navCtrl: NavController,
@@ -44,7 +44,7 @@ export class HomePage {
     this.diagnostic.getLocationAuthorizationStatus()
       .then((status) => {
 
-        alert(JSON.stringify(status));
+        this.debugAlert(JSON.stringify(status));
         switch (status) {
 
           case this.diagnostic.permissionStatus.GRANTED:
@@ -100,11 +100,11 @@ export class HomePage {
           // the accuracy option will be ignored by iOS
           this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
             .then((res) => {
-              alert('Request successful' + JSON.stringify(res));
+              this.debugAlert('Request successful' + JSON.stringify(res));
               // this.onClockIn();
             }, (error) => {
+              this.debugAlert(JSON.stringify(error));
 
-              alert(JSON.stringify(error));
               if (error.code == this.locationAccuracy.ERROR_USER_DISAGREED) {
                 this.navCtrl.setRoot('GpsOffPage', { animate: true, direction: 'forward' });
               } else {
@@ -118,8 +118,7 @@ export class HomePage {
               }
             });
         } else {
-
-          alert('Can request : FALSE');
+          this.debugAlert('Can request : FALSE');
         }
 
       });
@@ -132,10 +131,10 @@ export class HomePage {
       // resp.coords.longitude
       this.customService.hideLoader();
       this.res = resp.coords.latitude + ' ' + resp.coords.longitude;
-      alert(resp);
+      this.debugAlert(resp.coords.latitude + ' ' + resp.coords.longitude);
     }).catch((error) => {
       this.customService.hideLoader();
-      alert(JSON.stringify(error));
+      this.debugAlert(JSON.stringify(error));
       this.res = error.message;
 
     });
@@ -153,6 +152,13 @@ export class HomePage {
       }]
     });
 
+    alert.present();
+  }
+
+  debugAlert(msg: string) {
+    const alert = this.alertCtrl.create({
+      message: JSON.stringify(msg)
+    });
     alert.present();
   }
 
