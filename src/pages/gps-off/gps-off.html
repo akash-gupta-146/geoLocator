@@ -3,8 +3,10 @@
     <div text-center>
       <h1>GPS turned off</h1>
       <h5>This app requires device GPS to detect your location</h5>
+
+      <p *ngIf="isIOS"> You can go to Settings > Privacy > Location Services to enable the GPS</p>
   
-      <button ion-button full (click)="onEnableGPSBtn()">TURN ON GPS</button>
+      <button *ngIf="!isIOS" ion-button full (click)="onEnableGPSBtn()">TURN ON GPS</button>
     </div>
   
   </ion-content>

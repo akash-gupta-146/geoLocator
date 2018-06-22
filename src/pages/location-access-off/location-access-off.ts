@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class LocationAccessOffPage {
 
   denied_always = false;
+  deniedForIos = false;
   resumeSubscription: Subscription;
   resuming: boolean;
 
@@ -27,9 +28,16 @@ export class LocationAccessOffPage {
     private openNativeSettings: OpenNativeSettings
   ) {
     this.denied_always = this.navParams.get('status') == this.diagnostic.permissionStatus.DENIED_ALWAYS;
+    this.deniedForIos = this.navParams.get('status') == this.diagnostic.permissionStatus.DENIED;
   }
 
   ionViewDidEnter() {
+    if (this.platform.is('android')) {
+      this.subscribeToResumeEvent();
+    }
+  }
+
+  subscribeToResumeEvent() {
     // listen to resume event for recheckingn the 
     this.resumeSubscription = this.platform.resume
       .subscribe((res) => {
@@ -50,26 +58,77 @@ export class LocationAccessOffPage {
   }
 
   onAllowBtn() {
-    if (this.denied_always) {
-      // open settings
-      // this.diagnostic.switchToLocationSettings();
-      this.resuming = true;
-      this.openNativeSettings.open('application_details')
-        .then(() => { })
-        .catch(() => {
-          const alert = this.alertCtrl.create({
-            title: 'Error',
-            subTitle: 'Error in opening settings',
-            message: 'Please open the device settings manually'
+
+    if (this.platform.is('android')) {
+
+
+      if (this.denied_always) {
+        // open settings
+        // this.diagnostic.switchToLocationSettings();
+        this.resuming = true;
+        this.openNativeSettings.open('application_details')
+          .then(() => { })
+          .catch(() => {
+            const alert = this.alertCtrl.create({
+              title: 'Error',
+              subTitle: 'Error in opening settings',
+              message: 'Please open the device settings manually'
+            });
+            alert.present();
           });
-          alert.present();
-        });
+      } else {
+        this.requestLocationPermission();
+      }
     } else {
-      this.requestLocationPermission();
+      // for ios
+      if (!this.deniedForIos) {
+        // native dialog box is shown only
+        // if requesting location first time after installation of app
+        // in that case permission is NOT_REQUESTED
+        // in case of DENIED calling below method will have no efect, hence called in case of NOT_REQUESTED only
+        this.requestLocationPermissionForIos();
+      } else {
+        // do nothing , just show the steps to be followed through settings app on screen to give the app location access
+      }
+
+
     }
   }
 
+  requestLocationPermissionForIos() {
 
+    this.debugAlert('request location for ios permission called');
+
+    this.diagnostic.requestLocationAuthorization()
+      .then((status) => {
+        this.debugAlert(JSON.stringify(status));
+        switch (status) {
+          case this.diagnostic.permissionStatus.GRANTED:
+          case this.diagnostic.permissionStatus.GRANTED_WHEN_IN_USE:
+            // allow clock in , go to home page
+            this.navCtrl.setRoot(HomePage, { 'allChecked': true }, { animate: true, direction: 'forward' });
+            break;
+
+          case this.diagnostic.permissionStatus.DENIED:
+            console.log("Permission denied");
+            // change msg and hide allow btn
+            this.deniedForIos = true;
+            break;
+
+          case this.diagnostic.permissionStatus.NOT_REQUESTED:
+            this.debugAlert('Not requested');
+            break;
+        }
+      })
+      .catch(err => {
+        const alert = this.alertCtrl.create({
+          title: 'Error',
+          subTitle: 'Error in requesting location access',
+          message: JSON.stringify(err)
+        });
+        alert.present();
+      });
+  }
 
   requestLocationPermission() {
 
@@ -84,7 +143,10 @@ export class LocationAccessOffPage {
             this.checkLocationEnabledOrNot();
             break;
 
+
+
           case this.diagnostic.permissionStatus.DENIED:
+
             console.log("Permission denied");
             break;
 

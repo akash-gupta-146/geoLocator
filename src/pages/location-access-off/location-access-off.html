@@ -8,7 +8,17 @@
       <p>To enable, go to settings and turn on location access for this app.</p>
     </div>
 
-    <button ion-button full (click)="onAllowBtn()">{{denied_always?'OPEN SETTINGS':'ALLOW'}}</button>
+    <div *ngIf="deniedForIos">
+      <p>Turn on your location settings for this app</p>
+
+      <ion-list no-lines>
+        <ion-item>1: Open App settings in Phone settings</ion-item>
+        <ion-item>2: Select Location</ion-item>
+        <ion-item>3: Tap on 'Always' or 'While Using'</ion-item>
+      </ion-list>
+    </div>
+
+    <button *ngIf="!deniedForIos" ion-button full (click)="onAllowBtn()">{{denied_always?'OPEN SETTINGS':'ALLOW'}}</button>
   </div>
 
 </ion-content>

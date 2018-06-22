@@ -34,42 +34,78 @@ export class HomePage {
   ionViewDidLoad() {
 
     if (!this.allChecked) {
-      this.checkLocationPermission();
+      if (this.platform.is('android')) {
+
+        this.checkLocationPermission();
+      } else {
+        // for ios, check if locations services/GPS is on or off
+        // delay is given in IOS because sometimes plugins take time to load and hence throws error
+        this.customService.showLoader();
+        setTimeout(() => {
+
+          this.diagnostic.isLocationEnabled()
+            .then((enabled) => {
+              this.customService.hideLoader();
+              if (enabled) {
+                this.checkLocationPermission();
+              } else {
+                // open gps off page
+                this.navCtrl.setRoot("GpsOffPage", {}, { animate: true, direction: 'forward' });
+              }
+            })
+            .catch(err => {
+              this.customService.hideLoader();
+              const alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: 'Error in checking location status.Please restart the application',
+                message: JSON.stringify(err)
+              });
+              alert.present();
+            });
+        }, 1000);
+
+      }
     }
 
   }
 
   checkLocationPermission() {
 
+    this.customService.showLoader();
+
     this.diagnostic.getLocationAuthorizationStatus()
       .then((status) => {
+
+        this.customService.hideLoader();
 
         this.debugAlert(JSON.stringify(status));
         switch (status) {
 
           case this.diagnostic.permissionStatus.GRANTED:
-            // make GPS enable request
-            this.check_GPS_Status();
+            if (this.platform.is('android')) {
+              // make GPS enable request
+              this.check_GPS_Status();
+            } else {
+              // for ios, do nothing, clock in allowed
+            }
             break;
 
-          // ios only
-          case this.diagnostic.permissionStatus.GRANTED_WHEN_IN_USE:
-            // make locaiton enable request
-            break;
 
           case this.diagnostic.permissionStatus.NOT_REQUESTED:
             // grant permission
-            this.openLocationAccessOffPage(status);
+            this.openLocationAccessOffPage(status); // for ios: call this only for not_requested case, for others no effect 
             break;
 
           case this.diagnostic.permissionStatus.DENIED:
             // grant permission
             this.openLocationAccessOffPage(status);
+
             break;
 
           case this.diagnostic.permissionStatus.DENIED_ALWAYS:
             // grant permission
             this.openLocationAccessOffPage(status);
+
             break;
         }
       })
@@ -92,6 +128,8 @@ export class HomePage {
   }
 
   check_GPS_Status() {
+
+    this.debugAlert('check gps called');
 
     this.locationAccuracy.canRequest()
       .then((canRequest: boolean) => {
