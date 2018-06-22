@@ -1,3 +1,40 @@
-page-home {
+.locator {
+  background: url(/assets/imgs/map.png);
+  background-position: center;
+  background-size: cover;
+  .clock-in-details{
+    animation:slideInDown 0.3s ease-in;
+  }
+  .fab-large {
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    ion-icon {
+      font-size: 45px;
+    }
+  }
+  .middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: grow 0.3s ease-in;
+  }
+  ion-fab {
+    h4 {
+      color: color($colors, secondary);
+      border: 1px solid color($colors, secondary);
+      background: white;
+      border-radius: 5px;
+    }
+  }
+}
 
+@keyframes grow{
+    from{
+        transform:scale(0) translate(-50%, -50%);
+    }
+    to{
+        transform:scale(1) translate(-50%, -50%);
+    }
 }

@@ -1,17 +1,26 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-    <ion-buttons end>
-      <button ion-button  icon-only  (click)="onLogout()"><ion-icon name="log-out"></ion-icon></button>
-    </ion-buttons>
-  </ion-navbar>
-</ion-header>
+<ion-content class="locator">
 
-<ion-content padding>
+  <ion-card *ngIf="res" class="clock-in-details">
+    <ion-item>
+      <ion-icon name="pin" color="gray"  item-left></ion-icon>
+      <h4>Last Location</h4>
+      <p>{{res}} </p>
+    </ion-item>
+    <ion-item>
+        <ion-icon name="time" color="gray" item-left></ion-icon>
+        <h4>Last Time:</h4>
+        <p>12:30 PM </p>
+      </ion-item>
+  </ion-card>
+    <ion-fab bottom right>
+        <button ion-fab color="danger" mini (click)="onLogout()"><ion-icon name="md-power"></ion-icon></button>
+      </ion-fab>
 
-  <button ion-button (click)="onClockIn()">CLOCK IN</button>
-{{res }}
+
+    <ion-fab class="middle" text-center>
+      <button ion-fab class='fab-large' color="secondary" (click)="onClockIn()"><ion-icon name='md-time'></ion-icon></button>
+      <h4>Clock in</h4>
+      </ion-fab>
+<!-- {{res }} -->
 </ion-content>
       

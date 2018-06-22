@@ -1,33 +1,46 @@
 
 
 
-<ion-content>
-  <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
-   <h1>Login</h1>
-    <ion-card>
-
-      <ion-item>
-        <ion-icon color="primary" name="person" item-left></ion-icon>
-        <ion-label stacked>Username or Email</ion-label>
-        <ion-input type="text" formControlName="username" placeholder="Enter username/email"></ion-input>
-      </ion-item>
-      <ion-item no-lines *ngIf="(username.dirty || submitAttempt) && !username.valid">
-        <p *ngIf="username.hasError('required')" style="color: red">Contact No. is required.</p>
-        <p *ngIf="username.hasError('pattern')" style="color: red">Contact No. is invalid.</p>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon color="primary" name="unlock" item-left></ion-icon>
-        <ion-label stacked>Password</ion-label>
-        <ion-input type="password" formControlName="password" placeholder="Enter Password"></ion-input>
-      </ion-item>
-      <ion-item no-lines *ngIf="(password.dirty || submitAttempt) && !password.valid">
-        <p style="color: red">Password is required.</p>
-      </ion-item>
-      <button type="submit" ion-button full>Log In</button>
-
-    </ion-card>
-
-
-  </form>
+<ion-content class="login">
+    <div class="login-card">
+      <div class="input-card">
+          <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+              <div class="logo">
+                <img src="assets/imgs/logo.png" />
+                <h4>Geo Locator</h4>
+              </div>
+              <div class="inputs" padding>
+                  <ion-item>
+                      <ion-icon color="primary" name="mail" color="gray" item-right></ion-icon>
+                      <ion-label stacked color="gray">Username or Email</ion-label>
+                      <ion-input type="text" formControlName="username"></ion-input>
+                    </ion-item>
+                    <div class="error" *ngIf="(username.dirty || submitAttempt) && !username.valid">
+                        <p *ngIf="username.hasError('required')">User ID/Email is mandatory</p>
+                        <p *ngIf="username.hasError('pattern')">User ID/Email is invalid</p>
+                    </div>
+                    <ion-item>
+                        <ion-icon color="gray" name="unlock" item-right></ion-icon>
+                        <ion-label stacked  color="gray">Password</ion-label>
+                        <ion-input type="password" formControlName="password" placeholder="Enter Password"></ion-input>
+                    </ion-item>
+                    <div class="error" *ngIf="(password.dirty || submitAttempt) && !password.valid">
+                        <p>Password is mandatory</p>
+                    </div>
+                    <button class="login-button" type='submit'>Login</button>
+              </div>
+            </form>
+      </div>
+      <div class="flex">
+      <div class="circle-icon circle1">
+          <ion-icon name="md-person" color="light"></ion-icon>
+        </div>
+        <div class="circle-icon circle2">
+            <ion-icon name="md-finger-print" color="light"></ion-icon>
+          </div>
+          <div class="circle-icon circle3">
+              <ion-icon name="md-pin" color="light"></ion-icon>
+            </div>
+      </div>
+      </div>
 </ion-content>
