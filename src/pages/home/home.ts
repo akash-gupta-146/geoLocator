@@ -75,7 +75,7 @@ export class HomePage {
     this.diagnostic.getLocationAuthorizationStatus()
       .then((status) => {
 
-        this.debugAlert(JSON.stringify(status));
+        // this.debugAlert(JSON.stringify(status));
         switch (status) {
 
           case this.diagnostic.permissionStatus.GRANTED:
@@ -126,7 +126,7 @@ export class HomePage {
 
   check_GPS_Status() {
 
-    this.debugAlert('check gps called');
+    // this.debugAlert('check gps called');
 
     this.locationAccuracy.canRequest()
       .then((canRequest: boolean) => {
@@ -134,11 +134,8 @@ export class HomePage {
         if (canRequest) {
           // the accuracy option will be ignored by iOS
           this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
-            .then((res) => {
-              this.debugAlert('Request successful' + JSON.stringify(res));
-              // this.onClockIn();
-            }, (error) => {
-              this.debugAlert(JSON.stringify(error));
+            .then((res) => {                },
+             (error) => {
 
               if (error.code == this.locationAccuracy.ERROR_USER_DISAGREED) {
                 this.navCtrl.setRoot('GpsOffPage', { animate: true, direction: 'forward' });
@@ -166,7 +163,7 @@ export class HomePage {
       // resp.coords.longitude
       this.customService.hideLoader();
       this.res = resp.coords.latitude + ' ' + resp.coords.longitude;
-      this.debugAlert(resp.coords.latitude + ' ' + resp.coords.longitude);
+      // this.debugAlert(resp.coords.latitude + ' ' + resp.coords.longitude);
     }).catch((error) => {
       this.customService.hideLoader();
       this.debugAlert(JSON.stringify(error));

@@ -44,7 +44,7 @@ export class LocationAccessOffPage {
     // listen to resume event for recheckingn the 
     this.resumeSubscription = this.platform.resume
       .subscribe((res) => {
-        this.debugAlert('RESUME SUCCESSFULL');
+        // this.debugAlert('RESUME SUCCESSFULL');
         this.resuming && this.requestLocationPermission();
       }, (err) => {
         const alert = this.alertCtrl.create({
@@ -100,11 +100,11 @@ export class LocationAccessOffPage {
 
   requestLocationPermissionForIos() {
 
-    this.debugAlert('request location for ios permission called');
+    // this.debugAlert('request location for ios permission called');
 
     this.diagnostic.requestLocationAuthorization()
       .then((status) => {
-        this.debugAlert(JSON.stringify(status));
+        // this.debugAlert(JSON.stringify(status));
         switch (status) {
           case this.diagnostic.permissionStatus.GRANTED:
           case this.diagnostic.permissionStatus.GRANTED_WHEN_IN_USE:
@@ -118,7 +118,7 @@ export class LocationAccessOffPage {
             break;
 
           case this.diagnostic.permissionStatus.NOT_REQUESTED:
-            this.debugAlert('Not requested');
+            // this.debugAlert('Not requested');
             break;
         }
       })
@@ -134,11 +134,11 @@ export class LocationAccessOffPage {
 
   requestLocationPermission() {
 
-    this.debugAlert('request location permission called');
+    // this.debugAlert('request location permission called');
 
     this.diagnostic.requestLocationAuthorization()
       .then((status) => {
-        this.debugAlert(JSON.stringify(status));
+        // this.debugAlert(JSON.stringify(status));
         this.resuming = false;
         switch (status) {
           case this.diagnostic.permissionStatus.GRANTED:
@@ -157,7 +157,7 @@ export class LocationAccessOffPage {
             break;
 
           case this.diagnostic.permissionStatus.NOT_REQUESTED:
-            this.debugAlert('Not requested');
+            // this.debugAlert('Not requested');
             break;
         }
       })
@@ -172,7 +172,7 @@ export class LocationAccessOffPage {
   }
 
   checkLocationEnabledOrNot() {
-    this.debugAlert('checkLocationEnabledOrNot called');
+    // this.debugAlert('checkLocationEnabledOrNot called');
     this.diagnostic.isLocationEnabled()
       .then((enabled: boolean) => {
         if (enabled) {

@@ -5,7 +5,6 @@ import { HomePage } from '../home/home';
 import { Subscription } from 'rxjs/Subscription';
 
 
-
 @IonicPage()
 @Component({
   selector: 'page-gps-off',
@@ -47,7 +46,7 @@ export class GpsOffPage {
     // listen to resume event for rechecking the GPS status 
     this.resumeSubscription = this.platform.resume.subscribe((res) => {
 
-      this.debugAlert('RESUME SUCCESSFULL');
+      // this.debugAlert('RESUME SUCCESSFULL');
       this.onEnableGPSBtn();
     }, (err) => {
       const alert = this.alertCtrl.create({
@@ -69,11 +68,11 @@ export class GpsOffPage {
           // the accuracy option will be ignored by iOS
           this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
             .then((res) => {
-              this.debugAlert('Request successful' + JSON.stringify(res));
+              // this.debugAlert('Request successful' + JSON.stringify(res));
               // this.onClockIn();
               !this.isIOS && this.navCtrl.setRoot(HomePage, { 'allChecked': true }, { animate: true, direction: 'forward' });
             }, (error) => {
-              this.debugAlert(JSON.stringify(error));
+              // this.debugAlert(JSON.stringify(error));
 
             });
         } else {
@@ -93,7 +92,8 @@ export class GpsOffPage {
 
   debugAlert(msg: string) {
     const alert = this.alertCtrl.create({
-      message: JSON.stringify(msg)
+      message: JSON.stringify(msg),
+      buttons:['ok']
     });
     alert.present();
   }
