@@ -5,7 +5,6 @@ import { HomePage } from '../home/home';
 import { Subscription } from 'rxjs/Subscription';
 
 
-
 @IonicPage()
 @Component({
   selector: 'page-gps-off',
@@ -38,7 +37,7 @@ export class GpsOffPage {
   }
 
   ionViewWillLeave() {
-    this.resumeSubscription.unsubscribe();
+    this.isIOS && this.resumeSubscription.unsubscribe();
   }
 
 
@@ -47,7 +46,7 @@ export class GpsOffPage {
     // listen to resume event for rechecking the GPS status 
     this.resumeSubscription = this.platform.resume.subscribe((res) => {
 
-      this.debugAlert('RESUME SUCCESSFULL');
+      // this.debugAlert('RESUME SUCCESSFULL');
       this.onEnableGPSBtn();
     }, (err) => {
       const alert = this.alertCtrl.create({
@@ -69,17 +68,17 @@ export class GpsOffPage {
           // the accuracy option will be ignored by iOS
           this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
             .then((res) => {
-              this.debugAlert('Request successful' + JSON.stringify(res));
+              // this.debugAlert('Request successful' + JSON.stringify(res));
               // this.onClockIn();
               !this.isIOS && this.navCtrl.setRoot(HomePage, { 'allChecked': true }, { animate: true, direction: 'forward' });
             }, (error) => {
-              this.debugAlert(JSON.stringify(error));
+              // this.debugAlert(JSON.stringify(error));
 
             });
         } else {
           if (this.isIOS) {
             // in IOS canRequest is false if GPS is ON
-            // this will be the case when user has come back to app from settings and turned ON the GPS
+            // this will be the case when user has come back to app from settings and had turned ON the GPS in settings
             // now clock in is allowed, hence switch home  page
             this.navCtrl.setRoot(HomePage, { 'allChecked': false }, { animate: true, direction: 'forward' });
           } else {
@@ -93,7 +92,8 @@ export class GpsOffPage {
 
   debugAlert(msg: string) {
     const alert = this.alertCtrl.create({
-      message: JSON.stringify(msg)
+      message: JSON.stringify(msg),
+      buttons:['ok']
     });
     alert.present();
   }
