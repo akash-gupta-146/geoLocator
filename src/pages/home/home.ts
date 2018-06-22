@@ -71,12 +71,9 @@ export class HomePage {
 
   checkLocationPermission() {
 
-    this.customService.showLoader();
 
     this.diagnostic.getLocationAuthorizationStatus()
       .then((status) => {
-
-        this.customService.hideLoader();
 
         this.debugAlert(JSON.stringify(status));
         switch (status) {

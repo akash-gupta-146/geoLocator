@@ -14,8 +14,8 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class LocationAccessOffPage {
 
-  denied_always = false;
-  deniedForIos = false;
+  denied_always = false; // used only in case of android
+  deniedForIos = false; // used only in case of ios
   resumeSubscription: Subscription;
   resuming: boolean;
 
@@ -27,8 +27,11 @@ export class LocationAccessOffPage {
     private diagnostic: Diagnostic,
     private openNativeSettings: OpenNativeSettings
   ) {
-    this.denied_always = this.navParams.get('status') == this.diagnostic.permissionStatus.DENIED_ALWAYS;
-    this.deniedForIos = this.navParams.get('status') == this.diagnostic.permissionStatus.DENIED;
+    if (this.platform.is('android')) {
+      this.denied_always = this.navParams.get('status') == this.diagnostic.permissionStatus.DENIED_ALWAYS;
+    } else {
+      this.deniedForIos = this.navParams.get('status') == this.diagnostic.permissionStatus.DENIED;
+    }
   }
 
   ionViewDidEnter() {
@@ -54,7 +57,7 @@ export class LocationAccessOffPage {
   }
 
   ionViewWillLeave() {
-    this.resumeSubscription.unsubscribe();
+    this.platform.is('android') && this.resumeSubscription.unsubscribe();
   }
 
   onAllowBtn() {
@@ -110,8 +113,7 @@ export class LocationAccessOffPage {
             break;
 
           case this.diagnostic.permissionStatus.DENIED:
-            console.log("Permission denied");
-            // change msg and hide allow btn
+            //  hide allow btn
             this.deniedForIos = true;
             break;
 
@@ -147,12 +149,10 @@ export class LocationAccessOffPage {
 
           case this.diagnostic.permissionStatus.DENIED:
 
-            console.log("Permission denied");
             break;
 
           // android only
           case this.diagnostic.permissionStatus.DENIED_ALWAYS:
-            console.log("Permission denied");
             this.denied_always = true;
             break;
 

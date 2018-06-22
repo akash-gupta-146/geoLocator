@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, MenuController, FabList, ModalController } from 'ionic-angular';
+import {  NavController,  Events, MenuController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomService } from '../../providers/custom.service';
 import { AuthService } from '../../providers/auth.service';
@@ -20,7 +20,6 @@ export class LoginPage {
     private authService: AuthService,
     private events: Events,
     private menu: MenuController,
-    private modalCtrl: ModalController
   ) {
   }
 
@@ -35,7 +34,6 @@ export class LoginPage {
 
   get username() { return this.loginForm.get('username'); }
   get password() { return this.loginForm.get('password'); }
-
 
 
   login() {
@@ -63,7 +61,6 @@ export class LoginPage {
   navigate() {
     this.events.publish('user:login');
   }
-
 
   loginFailed(err) {
 

@@ -23,6 +23,7 @@ export class UserSessionManage {
     }
 
     public handleEvents() {
+
         this.events.subscribe('user:login', () => {
             this.login();
         });
@@ -32,26 +33,13 @@ export class UserSessionManage {
         this.events.subscribe("offline", () => {
             this.offline();
         });
-        this.events.subscribe("online", () => {
-            this.online();
-        });
-     
     }
 
 
     public hasLoggedIn() {
+        
         if (this.authService.isLoggedIn()) {
             this.rootPage = HomePage;
-            // this.authService.fetchUserDetails()
-            //     .subscribe((res) => {
-            //         // no need to do any thing as userdetails would have been saved in service
-            //         this.decideSideMenuContent();
-            //         this.menu.enable(true);
-            //         // this.enablePushNotifications();
-            //     }, (err: any) => {
-            //         this.customService.showToast('Some error occured, Please Reopen the App or Logout');
-            //     });
-
         } else {
             this.rootPage = LoginPage;
         }
@@ -61,8 +49,6 @@ export class UserSessionManage {
         this.appCtrl.getRootNavs()[0].setRoot(HomePage,{},{animate:true,direction:'forward'});
     }
 
-
-
     public logout() {
         localStorage.clear();
         this.appCtrl.getRootNavs()[0].setRoot(LoginPage,{},{animate:true,direction:'forward'});
@@ -71,15 +57,6 @@ export class UserSessionManage {
     public offline() {
     this.customService.showToast('You appears to be offline. Please check your internet .','top',true);
     }
-
-    public online() {
-        // if (this.authService.isLoggedIn()) {
-        //     this.login();
-        // } else {
-        //     this.logout();
-        // }
-    }
-
 
 }
 
