@@ -174,7 +174,7 @@ export class HomePage {
     this.obtainCurrentPosition()
       .then(location => this.upLoadCurrentPosition(location))
       .then(response => {
-        this.clockedIn = !forClockIn;
+        this.clockedIn = forClockIn;
         this.customService.showToast(msg);
       })
       .catch(error => {
@@ -210,6 +210,11 @@ export class HomePage {
       //     // this.debugAlert(resp.coords.latitude + ' ' + resp.coords.longitude);
       //     res(resp);
       //   });
+
+      setTimeout(() => {
+        res();
+        this.customService.hideLoader();
+      }, 2000);
     });
   }
 
