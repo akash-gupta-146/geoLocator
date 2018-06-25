@@ -21,11 +21,15 @@ export class AuthService {
     }
 
     isClockedIn() {
-        return localStorage.getItem('clockedInTime') ? true : false;
+        return localStorage.getItem('clockedIn')=='true';
     }
 
-    saveClockedInTime(time: string) {
-        localStorage.setItem('clockedInTime', time);
+
+    saveTimeAndLocation(clockedIn:boolean, time1: string,time2:string, location:any) {
+        localStorage.setItem('clockedIn',clockedIn.toString() );
+        localStorage.setItem('clockedInTime', time1);
+        localStorage.setItem('clockedOutTime', time2);
+        localStorage.setItem('lastLocation', JSON.stringify(location));
     }
 
 }

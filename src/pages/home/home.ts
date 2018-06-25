@@ -17,6 +17,9 @@ export class HomePage {
   // 2: after granting both permissions, in this case no need to perform those checks again
   allChecked;
   clockedIn: boolean; // wheather person is clockedIn or not
+  location: { lat: string, long: string };
+  clockedInTime: string;
+  clockedOutTime: string;
 
   constructor(
     public navCtrl: NavController,
@@ -32,9 +35,18 @@ export class HomePage {
   ) {
     this.allChecked = this.navParams.get('allChecked') || false;
     this.clockedIn = this.authService.isClockedIn();
+    this.showLocationAndTime();
+  }
+
+  showLocationAndTime() {
+
+    this.location = JSON.parse(localStorage.getItem('lastLocation'));
+    this.clockedInTime = localStorage.getItem('clockedInTime');
+    this.clockedOutTime = localStorage.getItem('clockedOutTime');
   }
 
   ionViewDidLoad() {
+
 
     if (!this.allChecked) {
       if (this.platform.is('android')) {
@@ -172,9 +184,10 @@ export class HomePage {
     const msg = `Clocked ${forClockIn ? 'In' : 'Out'} Successfully`;
 
     this.obtainCurrentPosition()
-      .then(location => this.upLoadCurrentPosition(location))
+      .then(location => this.upLoadCurrentPosition(location, forClockIn))
       .then(response => {
         this.clockedIn = forClockIn;
+
         this.customService.showToast(msg);
       })
       .catch(error => {
@@ -198,7 +211,7 @@ export class HomePage {
     });
   }
 
-  upLoadCurrentPosition(location: any) {
+  upLoadCurrentPosition(location: any, forClockIn: boolean) {
     return new Promise((res, rej) => {
 
       this.customService.showLoader('Uploading Location...');
@@ -212,11 +225,18 @@ export class HomePage {
       //   });
 
       setTimeout(() => {
-        res();
+        const loc: any = { lat: location.coords.latitude, long: location.coords.longitude };
+        const inTime: string = forClockIn ? new Date().toISOString() : localStorage.getItem('clockedInTime');
+        const outTime: string = forClockIn ? null : new Date().toISOString();
+        this.authService.saveTimeAndLocation(forClockIn,inTime,outTime,loc);
+        this.showLocationAndTime();
         this.customService.hideLoader();
+        res();
       }, 2000);
     });
   }
+
+
 
   onLogout() {
     const alert: Alert = this.alertCtrl.create({

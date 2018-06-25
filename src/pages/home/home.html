@@ -1,17 +1,18 @@
 <ion-content class="locator">
-<!-- 
-  <ion-card *ngIf="res" class="clock-in-details">
+
+  <ion-card *ngIf="location" class="clock-in-details">
     <ion-item>
       <ion-icon name="pin" color="gray" item-left></ion-icon>
       <h4>Last Location</h4>
-      <p>{{res}} </p>
+      <p>Long: {{location.long}}, Lat: {{location.lat}}</p>
     </ion-item>
     <ion-item>
       <ion-icon name="time" color="gray" item-left></ion-icon>
-      <h4>Last Time:</h4>
-      <p>12:30 PM </p>
+      <h4>{{clockedIn ? 'Clock In Time': 'Last Session'}}</h4>
+      <p *ngIf="clockedIn">{{clockedInTime | date:'medium'}}</p>
+      <p *ngIf="!clockedIn">{{clockedInTime | date:'shortTime'}} - {{clockedOutTime | date:'shortTime'}}, {{clockedOutTime | date:'mediumDate'}}</p>
     </ion-item>
-  </ion-card> -->
+  </ion-card>
 
   <ion-fab bottom right>
     <button ion-fab color="danger" mini (click)="onLogout()">
@@ -19,7 +20,7 @@
     </button>
   </ion-fab>
 
-<!-- FOR CLOCK IN -->
+  <!-- FOR CLOCK IN -->
   <ion-fab *ngIf="!clockedIn" class="middle" text-center>
     <button ion-fab class='fab-large' color="secondary" (click)="onClockIn()">
       <ion-icon name='md-time'></ion-icon>
@@ -29,9 +30,9 @@
 
   <!-- FOR CLOCK OUT -->
   <ion-fab *ngIf="clockedIn" class="middle" text-center>
-      <button ion-fab class='fab-large' color="secondary" (click)="onClockOut()">
-        <ion-icon name='md-time'></ion-icon>
-      </button>
-      <h4>Clock Out</h4>
-    </ion-fab>
+    <button ion-fab class='fab-large' color="secondary" (click)="onClockOut()">
+      <ion-icon name='md-time'></ion-icon>
+    </button>
+    <h4>Clock Out</h4>
+  </ion-fab>
 </ion-content>
