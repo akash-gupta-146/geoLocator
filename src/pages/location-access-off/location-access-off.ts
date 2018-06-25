@@ -87,8 +87,8 @@ export class LocationAccessOffPage {
       if (!this.deniedForIos) {
         // native dialog box is shown only
         // if requesting location first time after installation of app
-        // in that case permission is NOT_REQUESTED
-        // in case of DENIED calling below method will have no efect, hence called in case of NOT_REQUESTED only
+        // in that case permission status is NOT_REQUESTED
+        // in case of permission status  DENIED calling below method will have no efect, hence call in case of NOT_REQUESTED only
         this.requestLocationPermissionForIos();
       } else {
         // do nothing , just show the steps to be followed through settings app on screen to give the app location access

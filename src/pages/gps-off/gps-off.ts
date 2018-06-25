@@ -65,14 +65,15 @@ export class GpsOffPage {
       .then((canRequest: boolean) => {
 
         if (canRequest) {
-          // the accuracy option will be ignored by iOS
+          // the accuracy option (function parameter) will be ignored by iOS
           this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
             .then((res) => {
               // this.debugAlert('Request successful' + JSON.stringify(res));
               // this.onClockIn();
               !this.isIOS && this.navCtrl.setRoot(HomePage, { 'allChecked': true }, { animate: true, direction: 'forward' });
             }, (error) => {
-              // this.debugAlert(JSON.stringify(error));
+              // show error if other than 'user cancelled error'
+              error.code!=4 && this.debugAlert(JSON.stringify(error));
 
             });
         } else {
@@ -92,7 +93,7 @@ export class GpsOffPage {
 
   debugAlert(msg: string) {
     const alert = this.alertCtrl.create({
-      message: JSON.stringify(msg),
+      message: msg,
       buttons:['ok']
     });
     alert.present();

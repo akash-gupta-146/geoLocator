@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Home
     </ion-title>
     <ion-buttons end>
       <button ion-button  icon-only  (click)="onLogout()"><ion-icon name="log-out"></ion-icon></button>
@@ -11,7 +11,7 @@
 
 <ion-content padding>
 
-  <button ion-button (click)="onClockIn()">CLOCK IN</button>
-{{res }}
+  <button *ngIf="!clockedIn" ion-button (click)="onClockIn()">CLOCK IN</button>
+  <button *ngIf="clockedIn" ion-button (click)="onClockOut()">CLOCK OUT</button>
 </ion-content>
       
