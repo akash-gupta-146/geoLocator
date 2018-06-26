@@ -9,7 +9,7 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class CustomHttpService {
 
-     BASEURL='http://vocdev.vocscale-dev.ap-south-1.elasticbeanstalk.com';
+     BASEURL='http://www.vocscale-dev.ap-south-1.elasticbeanstalk.com';
 
     constructor(private httpClient: HttpClient) { }
 
@@ -45,6 +45,15 @@ export class CustomHttpService {
         const headers = this.addHeaders(options);
 
         return this.httpClient.post(this.BASEURL + url, body, { headers: headers, observe: 'response' })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    put(url: string, body: any, options?: HttpHeaders) {
+
+        const headers = this.addHeaders(options);
+
+        return this.httpClient.put(this.BASEURL + url, body, { headers: headers, observe: 'response' })
             .map(this.extractData)
             .catch(this.handleError);
     }

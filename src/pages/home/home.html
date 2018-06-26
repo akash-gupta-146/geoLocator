@@ -10,7 +10,7 @@
       <ion-icon name="time" color="gray" item-left></ion-icon>
       <h4>{{clockedIn ? 'Clock In Time': 'Last Session'}}</h4>
       <p *ngIf="clockedIn">{{clockedInTime | date:'medium'}}</p>
-      <p *ngIf="!clockedIn">{{clockedInTime | date:'shortTime'}} - {{clockedOutTime | date:'shortTime'}}, {{clockedOutTime | date:'mediumDate'}}</p>
+      <p *ngIf="!clockedIn">{{clockedInTime | date:'shortTime'}} - {{clockedOutTime | date:'shortTime'}},  {{clockedOutTime | date:'mediumDate'}}</p>
     </ion-item>
   </ion-card>
 

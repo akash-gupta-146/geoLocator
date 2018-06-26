@@ -27,8 +27,8 @@ export class LoginPage {
   ngOnInit() {
     this.menu.swipeEnable(false);
     this.loginForm = this.formBuilder.group({
-      username: ['mahesh.kumar', Validators.required],
-      password: ['12345678', Validators.required]
+      username: ['assessor100', Validators.required],
+      password: ['123456', Validators.required]
     });
   }
 

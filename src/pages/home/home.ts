@@ -172,11 +172,45 @@ export class HomePage {
   }
 
   onClockIn() {
-    this.obtainAndUploadPosition(true);
+    this.askForConfirmation('In')
+      .then(() => {
+        // do further action on confirm btn
+        this.obtainAndUploadPosition(true);
+      }, () => {
+        // do nothing on cancel btn
+      });
   }
 
   onClockOut() {
-    this.obtainAndUploadPosition(false);
+    this.askForConfirmation('Out')
+      .then(() => {
+        // do further action on confirm btn
+        this.obtainAndUploadPosition(false);
+      }, () => {
+        // do nothing on cancel btn
+      });
+  }
+
+  askForConfirmation(msg: string) {
+    return new Promise((res, rej) => {
+      const alert: Alert = this.alertCtrl.create({
+        title: 'Confirmation',
+        message: `Please confirm to Clock ${msg}`,
+        buttons: [{
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => rej()
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            alert.dismiss().then(() => res());
+            return false;
+          }
+        }]
+      });
+
+      alert.present();
+    });
   }
 
   obtainAndUploadPosition(forClockIn: boolean) {
@@ -187,7 +221,7 @@ export class HomePage {
       .then(location => this.upLoadCurrentPosition(location, forClockIn))
       .then(response => {
         this.clockedIn = forClockIn;
-
+        // alert(JSON.stringify(response));
         this.customService.showToast(msg);
       })
       .catch(error => {
@@ -214,25 +248,36 @@ export class HomePage {
   upLoadCurrentPosition(location: any, forClockIn: boolean) {
     return new Promise((res, rej) => {
 
-      this.customService.showLoader('Uploading Location...');
-      // this.geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 90000, maximumAge: 0 })
-      //   .then((resp) => {
-      //     // resp.coords.latitude
-      //     // resp.coords.longitude
-      //     this.customService.hideLoader();
-      //     // this.debugAlert(resp.coords.latitude + ' ' + resp.coords.longitude);
-      //     res(resp);
-      //   });
+      const payLoad: any = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+      };
 
-      setTimeout(() => {
-        const loc: any = { lat: location.coords.latitude, long: location.coords.longitude };
-        const inTime: string = forClockIn ? new Date().toISOString() : localStorage.getItem('clockedInTime');
-        const outTime: string = forClockIn ? null : new Date().toISOString();
-        this.authService.saveTimeAndLocation(forClockIn,inTime,outTime,loc);
-        this.showLocationAndTime();
-        this.customService.hideLoader();
-        res();
-      }, 2000);
+      forClockIn ? payLoad['clockIn'] = true : payLoad['clockOut'] = true;
+
+      this.customService.showLoader('Uploading Location...');
+
+      this.authService.uploadClockInLocation(payLoad)
+        .subscribe((resp: any) => {
+          this.customService.hideLoader();
+
+          
+
+          // save and show location and time 
+          const loc: any = { lat: location.coords.latitude, long: location.coords.longitude };
+          const inTime: string = forClockIn ? new Date().toISOString() : localStorage.getItem('clockedInTime');
+          const outTime: string = forClockIn ? null : new Date().toISOString();
+          this.authService.saveTimeAndLocation(forClockIn, inTime, outTime, loc);
+          this.showLocationAndTime();
+
+          // resolve the promise
+          res(resp);
+        }, (err: any) => {
+          // alert(JSON.stringify(err));
+          this.customService.hideLoader();
+          rej(err.msg);
+        });
+
     });
   }
 
@@ -246,12 +291,28 @@ export class HomePage {
         role: 'cancel'
       }, {
         text: 'Yes',
-        handler: () => { this.events.publish('user:logout'); }
+        handler: () => { this.sendLogoutRequest(); }
       }]
     });
 
     alert.present();
   }
+
+  sendLogoutRequest() {
+    this.customService.showLoader('Logging out...');
+    this.authService.logout()
+      .subscribe((resp: any) => {
+      //  alert( JSON.stringify(resp));
+        this.customService.hideLoader();
+        this.events.publish('user:logout');
+
+      }, (err: any) => {
+        // alert( JSON.stringify(err));
+        this.customService.hideLoader();
+        this.customService.showToast(err.msg);
+      });
+  }
+
 
   debugAlert(msg: string) {
     const alert = this.alertCtrl.create({
