@@ -12,8 +12,8 @@
               <div class="inputs" padding>
                   <ion-item>
                       <ion-icon color="primary" name="mail" color="gray" item-right></ion-icon>
-                      <ion-label stacked color="gray">Username or Email</ion-label>
-                      <ion-input type="text" formControlName="username"></ion-input>
+                      <ion-label floating color="gray">Username or Email</ion-label>
+                      <ion-input type="text" formControlName="username" ></ion-input>
                     </ion-item>
                     <div class="error" *ngIf="(username.dirty || submitAttempt) && !username.valid">
                         <p *ngIf="username.hasError('required')">User ID/Email is mandatory</p>
@@ -21,8 +21,8 @@
                     </div>
                     <ion-item>
                         <ion-icon color="gray" name="unlock" item-right></ion-icon>
-                        <ion-label stacked  color="gray">Password</ion-label>
-                        <ion-input type="password" formControlName="password" placeholder="Enter Password"></ion-input>
+                        <ion-label floating  color="gray">Password</ion-label>
+                        <ion-input type="password" formControlName="password"></ion-input>
                     </ion-item>
                     <div class="error" *ngIf="(password.dirty || submitAttempt) && !password.valid">
                         <p>Password is mandatory</p>
