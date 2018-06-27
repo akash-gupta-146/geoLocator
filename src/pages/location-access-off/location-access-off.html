@@ -1,8 +1,8 @@
 <ion-content padding>
 
-  <div text-center>
+  <div text-center padding>
     <h1>Location permission required</h1>
-    <h5>Allow this app to automatically detect your current location</h5>
+    <h5 style="margin-top: 25px">Allow this app to automatically detect your current location</h5>
 
     <div *ngIf="denied_always">
       <p>To enable, go to settings and turn on location access for this app.</p>
@@ -11,14 +11,16 @@
     <div *ngIf="deniedForIos">
       <p>Turn on your location settings for this app</p>
 
-      <ion-list no-lines>
-        <ion-item>1: Open App settings in Phone settings</ion-item>
-        <ion-item>2: Select Location</ion-item>
-        <ion-item>3: Tap on 'Always' or 'While Using'</ion-item>
+      <ion-list no-lines text-wrap >
+        <ion-item class="smallText">1: Open App settings in Phone settings</ion-item>
+        <ion-item class="smallText">2: Select Location</ion-item>
+        <ion-item class="smallText">3: Tap on 'Always' or 'While Using'</ion-item>
       </ion-list>
     </div>
 
-    <button *ngIf="!deniedForIos" ion-button full (click)="onAllowBtn()">{{denied_always?'OPEN SETTINGS':'ALLOW'}}</button>
+    <div margin-top *ngIf="!deniedForIos">
+    <button  ion-button full (click)="onAllowBtn()">{{denied_always?'OPEN SETTINGS':'ALLOW'}}</button>
   </div>
+</div>
 
 </ion-content>

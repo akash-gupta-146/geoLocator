@@ -261,7 +261,7 @@ export class HomePage {
         .subscribe((resp: any) => {
           this.customService.hideLoader();
 
-          
+
 
           // save and show location and time 
           const loc: any = { lat: location.coords.latitude, long: location.coords.longitude };
@@ -302,7 +302,7 @@ export class HomePage {
     this.customService.showLoader('Logging out...');
     this.authService.logout()
       .subscribe((resp: any) => {
-      //  alert( JSON.stringify(resp));
+        //  alert( JSON.stringify(resp));
         this.customService.hideLoader();
         this.events.publish('user:logout');
 

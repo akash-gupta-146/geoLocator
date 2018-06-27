@@ -18,7 +18,7 @@ export class LocationAccessOffPage {
   deniedForIos = false; // used only in case of ios
   resumeSubscription: Subscription;
   resuming: boolean;
-
+     
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
