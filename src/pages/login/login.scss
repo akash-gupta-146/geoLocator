@@ -87,10 +87,13 @@ ion-content{
                 }
             }
         }
-        .flex{
+        .helper-circle{
             position:relative;
             bottom: 100px;
             z-index:-1;
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            height: 130px;
             .circle-icon{
                 animation:circleDisplay 0.2s ease-in;
                 animation-delay:0.8s;
@@ -99,7 +102,6 @@ ion-content{
                 width:50px;
                 height:50px;
                 border-radius:50%;
-                position: absolute;
                 align-content: center;
                 text-align: center;
                 display: grid;
@@ -114,22 +116,25 @@ ion-content{
                 }
             }
             .circle1{
-                bottom: 0vw;
+                align-self:start;
+                justify-self:start;
                 background: #f76a65;
             }
             .circle2{
-                bottom: -12vw;
-                left: 26vw;
+                align-self:center;
+                justify-self:center;
                 background: #6985f3;
             }
             .circle3{
-                bottom: -26vw;
-                left: 52vw;
+                align-self:end;
+                justify-self:end;
                 background: #38b1f7;
             }
         }
     }
 }
+
+
 
 @keyframes slideDown{
     from{
