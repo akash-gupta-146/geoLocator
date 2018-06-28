@@ -12,7 +12,7 @@ export class AuthService {
 
     login(loginCredentials: any) {
 
-        return this.http.postForLogin('/login', loginCredentials);
+        return this.http.postForLogin('/mobileLogin', loginCredentials);
     }
 
     logout() {

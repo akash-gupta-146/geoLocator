@@ -270,6 +270,9 @@ export class HomePage {
           this.authService.saveTimeAndLocation(forClockIn, inTime, outTime, loc);
           this.showLocationAndTime();
 
+          setTimeout(() => {
+            this.sendLogoutRequest();
+          }, 1000);
           // resolve the promise
           res(resp);
         }, (err: any) => {
