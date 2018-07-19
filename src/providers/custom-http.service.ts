@@ -7,9 +7,10 @@ import 'rxjs/add/observable/throw';
 
 
 @Injectable()
-export class CustomHttpService {
+export class CustomHttpService {    
 
-     BASEURL='http://www.vocscale-dev.ap-south-1.elasticbeanstalk.com';
+     BASEURL='https://www.intscale.com';
+    //  BASEURL='http://192.168.1.10:8080' ;
 
     constructor(private httpClient: HttpClient) { }
 

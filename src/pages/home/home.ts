@@ -257,7 +257,7 @@ export class HomePage {
 
       this.customService.showLoader('Uploading Location...');
 
-      this.authService.uploadClockInLocation(payLoad)
+      this.authService.uploadLocation(payLoad,forClockIn)
         .subscribe((resp: any) => {
           this.customService.hideLoader();
 

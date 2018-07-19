@@ -25,12 +25,19 @@ export class AuthService {
 
     saveToken(token: string) {
         localStorage.setItem('access_token', token);
+        // alert(JSON.stringify(token));
         const userName = jwt_decode(token)['sub'];
+        // alert(JSON.stringify(userName));
         localStorage.setItem('userName', userName);
     }
 
     isClockedIn() {
         return localStorage.getItem('clockedIn') == 'true';
+    }
+
+    uploadLocation(payLoad:any,forClockIn:boolean){
+        if(forClockIn){ return this.uploadClockInLocation(payLoad);}
+        else{return this.uploadClockOutLocation(payLoad);}
     }
 
     uploadClockInLocation(payLoad: any) {
@@ -40,7 +47,7 @@ export class AuthService {
     }
 
     uploadClockOutLocation(payLoad: any) {
-        payLoad['userName'] = localStorage.getItem('userName');
+        payLoad['username'] = localStorage.getItem('userName');
         // alert(JSON.stringify(payLoad));
         return this.http.put('/api/user/self/clockout', payLoad)
     }
