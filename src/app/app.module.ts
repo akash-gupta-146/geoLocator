@@ -19,12 +19,14 @@ import { Geolocation} from '@ionic-native/geolocation';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { OnlineOfflinePage } from '../pages/online-offline/online-offline';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    OnlineOfflinePage
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings';
   entryComponents: [   
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    OnlineOfflinePage
   ],   
   providers: [
     StatusBar,

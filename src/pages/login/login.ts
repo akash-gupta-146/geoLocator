@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController,  Events, MenuController } from 'ionic-angular';
+import {  NavController,  Events, MenuController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomService } from '../../providers/custom.service';
 import { AuthService } from '../../providers/auth.service';
@@ -12,15 +12,18 @@ export class LoginPage {
 
   loginForm: FormGroup;
   submitAttempt = false;
+  pushed = false; // indicates wheather login page is pushed from onlin-offline page or directly set root
 
   constructor(
     public navCtrl: NavController,
+    private navParams:NavParams,
     public formBuilder: FormBuilder,
     private customService: CustomService,
     private authService: AuthService,
     private events: Events,
     private menu: MenuController,
   ) {
+    this.pushed = this.navParams.get('pushed');
   }
 
 
@@ -66,5 +69,7 @@ export class LoginPage {
 
     this.customService.showToast(err.msg);
   }
+
+  onGoBack(){this.navCtrl.pop();}
 
 }

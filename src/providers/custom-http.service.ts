@@ -6,11 +6,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 
-@Injectable()
-export class CustomHttpService {    
 
-     BASEURL='https://www.intscale.com';
-    //  BASEURL='http://192.168.1.10:8080' ;
+@Injectable()
+export class CustomHttpService {
+
+    BASEURL = '';
+    ONLINE_BASEURL = 'https://www.intscale.com';
+    OFFLINE_BASEURL = '';
 
     constructor(private httpClient: HttpClient) { }
 
@@ -81,7 +83,7 @@ export class CustomHttpService {
             /**A client-side or network error occurred. Handle it accordingly.*/
             // console.log('An error occurred:', );
             errorInfo.status = err.status;
-            errorInfo.status == 0 ? errorInfo.msg = "No Internet, Check Your connection Or Try again" : errorInfo.msg = err.message || 'Some Error Occured';
+            errorInfo.status == 0 ? errorInfo.msg = "Some error occured" : errorInfo.msg = err.message || 'Some Error Occured';
         }
         else {
             /**The backend returned an unsuccessful response code.*/

@@ -4,6 +4,7 @@ import { NetworkService } from '../providers/network.service';
 import { CustomService } from '../providers/custom.service';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
+import { OnlineOfflinePage } from '../pages/online-offline/online-offline';
 
 export class UserSessionManage {
 
@@ -37,11 +38,13 @@ export class UserSessionManage {
 
 
     public hasLoggedIn() {
-
+        // if condition will never be satisfied in this app we are logging out automatically after cloking in/out
+        // so user will always land the login page on opening the app.
         if (this.authService.isLoggedIn()) {
             this.rootPage = HomePage;
         } else {
-            this.rootPage = LoginPage;
+            // this.rootPage = LoginPage;
+            this.rootPage = OnlineOfflinePage;
         }
     }
 
