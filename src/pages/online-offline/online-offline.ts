@@ -30,7 +30,7 @@ export class OnlineOfflinePage {
     if(this.mode=='online'){
       this.customHttpService.BASEURL = this.customHttpService.ONLINE_BASEURL;
     }else{
-      this.customHttpService.OFFLINE_BASEURL = `https://${this.ipAddress}`;
+      this.customHttpService.OFFLINE_BASEURL = `${this.ipAddress}`;
       this.customHttpService.BASEURL = this.customHttpService.OFFLINE_BASEURL;
     }
   }

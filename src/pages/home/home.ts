@@ -234,7 +234,7 @@ export class HomePage {
     return new Promise((res, rej) => {
 
       this.customService.showLoader('Getting Location...');
-      this.geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 90000, maximumAge: 0 })
+      this.geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 40000, maximumAge: 0 })
         .then((response) => {
           // resp.coords.latitude
           // resp.coords.longitude
