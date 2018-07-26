@@ -1,6 +1,6 @@
 <ion-content class="locator">
-
-  <ion-card *ngIf="location" class="clock-in-details">
+<!-- FOLLOWING CARD IS VISIBLE ONLY WHEN USER IS CLOCKEDIN -->
+  <ion-card *ngIf="location.lat && location.long" class="clock-in-details">
     <ion-item>
       <ion-icon name="pin" color="gray" item-left></ion-icon>
       <h4>Last Location</h4>
@@ -8,9 +8,8 @@
     </ion-item>
     <ion-item>
       <ion-icon name="time" color="gray" item-left></ion-icon>
-      <h4>{{clockedIn ? 'Clock In Time': 'Last Session'}}</h4>
-      <p *ngIf="clockedIn">{{clockedInTime | date:'medium'}}</p>
-      <p *ngIf="!clockedIn">{{clockedInTime | date:'shortTime'}} - {{clockedOutTime | date:'shortTime'}},  {{clockedOutTime | date:'mediumDate'}}</p>
+      <h4>Clock In Time</h4>
+      <p>{{clockedInTime | date:'medium'}}</p>
     </ion-item>
   </ion-card>
 

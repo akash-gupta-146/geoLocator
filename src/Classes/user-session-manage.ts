@@ -40,12 +40,12 @@ export class UserSessionManage {
     public hasLoggedIn() {
         // if condition will never be satisfied in this app we are logging out automatically after cloking in/out
         // so user will always land the login page on opening the app.
-        if (this.authService.isLoggedIn()) {
-            this.rootPage = HomePage;
-        } else {
-            // this.rootPage = LoginPage;
-            this.rootPage = OnlineOfflinePage;
-        }
+        // if (this.authService.isLoggedIn()) {
+        //     this.rootPage = HomePage;
+        // } else {
+        //     // this.rootPage = LoginPage;
+        // }
+        this.rootPage = OnlineOfflinePage;
     }
 
     public login() {
@@ -53,12 +53,12 @@ export class UserSessionManage {
     }
 
     public logout() {
-        if (localStorage.getItem('clockedIn') == 'true') {
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('userName');
-        } else {
-            localStorage.clear();
-        }
+        localStorage.clear();
+        // if (localStorage.getItem('clockedIn') == 'true') {
+        //     localStorage.removeItem('access_token');
+        //     localStorage.removeItem('userName');
+        // } else {
+        // }
         this.appCtrl.getRootNavs()[0].setRoot(LoginPage, {}, { animate: true, direction: 'forward' });
     }
 

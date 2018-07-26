@@ -35,6 +35,10 @@ export class AuthService {
         return localStorage.getItem('clockedIn') == 'true';
     }
 
+    getClockInStatusFromServer(payLoad){
+        return this.http.put('/api/user/self/getClockIn', payLoad)
+    }
+
     uploadLocation(payLoad:any,forClockIn:boolean){
         if(forClockIn){ return this.uploadClockInLocation(payLoad);}
         else{return this.uploadClockOutLocation(payLoad);}
@@ -52,10 +56,9 @@ export class AuthService {
         return this.http.put('/api/user/self/clockout', payLoad)
     }
 
-    saveTimeAndLocation(clockedIn: boolean, time1: string, time2: string, location: any) {
-        localStorage.setItem('clockedIn', clockedIn.toString());
-        localStorage.setItem('clockedInTime', time1);
-        localStorage.setItem('clockedOutTime', time2);
+    saveTimeAndLocation(clockedIn:boolean,time: string ,location: any) {
+        localStorage.setItem('clockedIn', JSON.stringify(clockedIn));
+        localStorage.setItem('clockedInTime', time);
         localStorage.setItem('lastLocation', JSON.stringify(location));
     }
 

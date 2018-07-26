@@ -17,7 +17,7 @@
     </ion-item>
     <small *ngIf="mode=='offline'">Enter IP address of local server</small>
 
-    <button margin-top ion-button full round [disabled]="mode=='offline' && !ipAddress"
+    <button type="button" margin-top ion-button full round [disabled]="mode=='offline' && !ipAddress"
     (click)="onGoToLogin()">
     GO TO LOGIN</button>
   </div>

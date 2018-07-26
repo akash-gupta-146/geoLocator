@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController,  Events, MenuController, NavParams } from 'ionic-angular';
+import { NavController, Events, MenuController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomService } from '../../providers/custom.service';
 import { AuthService } from '../../providers/auth.service';
@@ -16,7 +16,7 @@ export class LoginPage {
 
   constructor(
     public navCtrl: NavController,
-    private navParams:NavParams,
+    private navParams: NavParams,
     public formBuilder: FormBuilder,
     private customService: CustomService,
     private authService: AuthService,
@@ -30,8 +30,8 @@ export class LoginPage {
   ngOnInit() {
     this.menu.swipeEnable(false);
     this.loginForm = this.formBuilder.group({
-      username: ['assessor1', Validators.required],
-      password: ['mazel tov', Validators.required]
+      username: ['assessor5', Validators.required],
+      password: ['123456', Validators.required]
     });
   }
 
@@ -51,7 +51,7 @@ export class LoginPage {
 
           this.customService.hideLoader();
           this.authService.saveToken(res.token);
-          this.navigate();
+          this.checkClockInStatus();
 
         }, (err) => {
 
@@ -59,6 +59,25 @@ export class LoginPage {
           this.loginFailed(err);
         });
     }
+  }
+
+  checkClockInStatus() {
+    this.customService.showLoader('Checking ClockIn status...');
+    //check lockin status from server
+    this.authService.getClockInStatusFromServer({ username: localStorage.getItem('userName') })
+      .subscribe((res: any) => {
+        console.log(res);
+        alert(JSON.stringify(res));
+        this.customService.hideLoader();
+        const time = res.dateTime?res.dateTime.split(' ').join('T'):'';
+        this.authService.saveTimeAndLocation(res.clockIn, time, { lat: res.inLatitude, long: res.inLongitude });
+
+        this.navigate();
+
+      }, (err: any) => {
+        this.customService.hideLoader();
+        this.customService.showToast(err.msg);
+      });
   }
 
   navigate() {
@@ -70,6 +89,6 @@ export class LoginPage {
     this.customService.showToast(err.msg);
   }
 
-  onGoBack(){this.navCtrl.pop();}
+  onGoBack() { this.navCtrl.pop(); }
 
 }

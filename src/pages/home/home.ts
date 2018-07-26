@@ -19,7 +19,7 @@ export class HomePage {
   clockedIn: boolean; // wheather person is clockedIn or not
   location: { lat: string, long: string };
   clockedInTime: string;
-  clockedOutTime: string;
+  // clockedOutTime: string;
 
   constructor(
     public navCtrl: NavController,
@@ -34,15 +34,16 @@ export class HomePage {
     private platform: Platform
   ) {
     this.allChecked = this.navParams.get('allChecked') || false;
-    this.clockedIn = this.authService.isClockedIn();
+    this.clockedIn = JSON.parse(localStorage.getItem('clockedIn'));
     this.showLocationAndTime();
   }
+
+
 
   showLocationAndTime() {
 
     this.location = JSON.parse(localStorage.getItem('lastLocation'));
     this.clockedInTime = localStorage.getItem('clockedInTime');
-    this.clockedOutTime = localStorage.getItem('clockedOutTime');
   }
 
   ionViewDidLoad() {
@@ -257,18 +258,17 @@ export class HomePage {
 
       this.customService.showLoader('Uploading Location...');
 
-      this.authService.uploadLocation(payLoad,forClockIn)
+      this.authService.uploadLocation(payLoad, forClockIn)
         .subscribe((resp: any) => {
           this.customService.hideLoader();
 
 
 
           // save and show location and time 
-          const loc: any = { lat: location.coords.latitude, long: location.coords.longitude };
-          const inTime: string = forClockIn ? new Date().toISOString() : localStorage.getItem('clockedInTime');
-          const outTime: string = forClockIn ? null : new Date().toISOString();
-          this.authService.saveTimeAndLocation(forClockIn, inTime, outTime, loc);
-          this.showLocationAndTime();
+          // const loc: any = { lat: location.coords.latitude, long: location.coords.longitude };
+          // const inTime: string = forClockIn ? new Date().toISOString() : localStorage.getItem('clockedInTime');
+          // const outTime: string = forClockIn ? null : new Date().toISOString();
+          // this.showLocationAndTime();
 
           setTimeout(() => {
             this.sendLogoutRequest();

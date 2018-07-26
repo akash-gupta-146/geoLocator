@@ -7,7 +7,7 @@
           <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
               <div class="logo">
                 <img src="assets/imgs/logo.png" />
-                <h4>Geo Locator</h4>
+                <!-- <h4>Geo Locator</h4> -->
               </div>
               <div class="inputs" padding>
                   <ion-item>
@@ -27,7 +27,7 @@
                     <div class="error" *ngIf="(password.dirty || submitAttempt) && !password.valid">
                         <p>Password is mandatory</p>
                     </div>
-                    <button type="button" float-right clear ion-button (click)="onGoBack()">Go Back</button>
+                    <button *ngIf="pushed" type="button" float-right clear ion-button (click)="onGoBack()">Go Back</button>
                     <button class="login-button" type='submit'>Login</button>
               </div>
             </form>
